@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    - token: "SWMTKN-1-5j0vysbsuvpvpybdn2brypgqrssai45n4d1l2f0fcpu7s1j67w-3u4mq3ywyz4ezhmb78ae2jdwt"
+    - master_node: "10.0.8.11"
+
+  tasks:
+    - name: Install docker-py package with pip3.
+      pip:
+        name: docker-py
+        executable: pip3
+        state: present
+
+    - name: Join docker swarm.
+      docker_swarm:
+        state: join
+        advertise_addr: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
+        join_token: "{{ token }}"
+        remote_addrs: ["{{ master_node }}"]

@@ -1,0 +1,28 @@
+# Elasticsearch Configuration 
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+
+cluster.name: {{ es_config["cluster"]["name"] or "elastic-test-cluster" }}
+
+node.name: {{ es_config["node"]["name"] or ansible_fqdn }}
+
+#node.attr.rack: r1
+
+path.data: {{ es_config["path"]["data"] or "${path.data}" }}
+
+path.logs: {{ es_config["path"]["logs"] or "${path.logs}" }}
+
+#bootstrap.memory_lock: true
+
+network.host: {{ es_config["network"]["host"] or ansible_host }}
+
+http.port: {{ es_config["http"]["port"] or "9200" }}
+
+discovery.seed_hosts: {{ es_config["discovery"]["seed_hosts"] or '["127.0.0.1", "[::1]"]' }}
+
+cluster.initial_master_nodes: {{ es_config["cluster"]["initial_master_nodes"] or [ansible_fqdn] }}
+
+#gateway.recover_after_nodes: 3
+
+#action.destructive_requires_name: true 
+
+action.auto_create_index: {{ es_config["action"]["auto_create_index"] or "" }}

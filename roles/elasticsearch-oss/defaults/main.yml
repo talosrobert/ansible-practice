@@ -1,0 +1,27 @@
+---
+elastic_repository_gpg_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+es_config:
+  cluster:
+    name: "elastic-test-cluster"
+    initial_master_nodes: ["localhost"]
+  network:
+    host: "localhost"
+  node:
+    name: "localhost"
+    attr_rack: "r1"
+  http:
+    port: "9200"
+  path:
+    data: "/opt/elasticsearch/data/"
+    log: "/opt/elasticsearch/log/"
+  action:
+    auto_create_index: ".monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*"
+  discovery:
+    seed_hosts: ["localhost:9300"]
+
+# Discovery port is optional and usually defaults to 9300 but this default
+# can be overridden by transport.profiles.default.port and fallback to transport.port if not specified.
+
+jvm:
+  heap_size: "512m"

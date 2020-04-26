@@ -1,0 +1,25 @@
+---
+- name: elastic service setup
+  block:
+    - name: Reload services
+      systemd: 
+        daemon_reload: true
+      when: ansible_service_mgr == "systemd"
+    
+    - name: Start elasticsearch service
+      service:
+        name: elasticsearch
+        state: started
+        enabled: yes
+
+- name: create elasticsearch data dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: elastic
+    group: elastic
+    mode: 0755
+    recurse: yes
+  loop:
+    - '{{ es_config["path"]["data"] }}'
+    - '{{ es_config["path"]["logs"] }}'
