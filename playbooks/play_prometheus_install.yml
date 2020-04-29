@@ -1,0 +1,41 @@
+---
+- hosts: [localhost,all]
+  become: yes
+  roles: 
+    - cloudalchemy.node-exporter
+  vars:
+    node_exporter_version: latest
+    node_exporter_web_listen_address: '{{ hostvars[inventory_hostname]["ansible_host"] }}:9100'
+  tasks:
+    - name: Open port 9100/tcp.
+      firewalld:
+        zone: FedoraServer
+        rich_rule: "rule family=ipv4 source address='10.0.8.0/24' port port=9100 protocol=tcp accept"
+        permanent: yes
+        immediate: yes
+        state: enabled
+
+- hosts: localhost
+  become: yes
+  roles:
+    - cloudalchemy.prometheus
+  vars:
+    prometheus_web_listen_address: "10.0.8.11:9089"
+    prometheus_scrape_configs:
+      - job_name: "prometheus-server"
+        metrics_path: "/metrics"
+        static_configs:
+          - targets:
+            - "10.0.8.11:9089"
+      - job_name: "prometheus-nodes"
+        dns_sd_configs:
+          - names: 
+            - "_prometheus._tcp.talos.net"
+  tasks:
+    - name: Open port 9089/tcp.
+      firewalld:
+        zone: FedoraServer
+        rich_rule: "rule family=ipv4 source address='10.0.8.0/24' port port=9089 protocol=tcp accept"
+        permanent: yes
+        immediate: yes
+        state: enabled

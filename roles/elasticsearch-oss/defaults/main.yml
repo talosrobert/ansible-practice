@@ -20,6 +20,8 @@ es_config:
   discovery:
     seed_hosts: ["localhost:9300"]
 
+# Elasticsearch Reference Network Settings
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html#modules-network
 # Discovery port is optional and usually defaults to 9300 but this default
 # can be overridden by transport.profiles.default.port and fallback to transport.port if not specified.
 
