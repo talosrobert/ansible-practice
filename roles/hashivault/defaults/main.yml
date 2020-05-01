@@ -1,0 +1,16 @@
+---
+hashicorp_vault_binary_archive: "vault_1.4.0_linux_amd64.zip" 
+
+hashicorp_vault_config:
+  storage:
+    name: ""
+    address: "127.0.0.1:8500"
+    path: "vault"
+  listener: 
+    name: "tcp"
+    address: "127.0.0.1:8200"
+    tls_disable: 1
+  telemetry :
+    statsite_address: "127.0.0.1:8125"
+    disable_hostname: "true"
+  

@@ -1,0 +1,27 @@
+---
+- hosts: [localhost,all]
+  tasks:
+  - name: Install packages for a HA GFS2 cluster.
+    dnf:
+      name: ["pcs","pacemaker","fence-agents-all","lvm2-lockd", "gfs2-utils", "dlm"]
+      state: latest
+
+  - name: Start and enable the pacemaker service.
+    systemd:
+      name: pcsd
+      state: started
+      enabled: yes
+  
+  - name: Allow high-availability traffic from intranet.
+    firewalld:
+      zone: FedoraServer
+      rich_rule: "rule family=ipv4 source address=10.0.8.0/24 service name='high-availability' accept"
+      state: enabled
+      permanent: yes
+      immediate: yes
+  
+  - name: Set a password for user hacluster.
+    user:
+      name: hacluster
+      password: "{{ vault_hacluster_password }}"
+      state: present
