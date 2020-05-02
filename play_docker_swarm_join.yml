@@ -2,7 +2,7 @@
 - hosts: all
   become: yes
   vars:
-    - token: "SWMTKN-1-5j0vysbsuvpvpybdn2brypgqrssai45n4d1l2f0fcpu7s1j67w-3u4mq3ywyz4ezhmb78ae2jdwt"
+    - token: "{{ vault_docker_swarm_token }}"
     - master_node: "10.0.8.11"
 
   tasks:
