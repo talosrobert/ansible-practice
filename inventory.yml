@@ -1,5 +1,6 @@
 ---
 all:
   hosts:
+    fs11:
     fs12:
     fs13:
