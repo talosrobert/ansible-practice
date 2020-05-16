@@ -3,7 +3,7 @@
   become: yes
   vars:
     - token: "{{ vault_docker_swarm_token }}"
-    - master_node: "10.0.8.11"
+    - master_node: "10.0.8.10"
 
   tasks:
     - name: Install docker-py package with pip3.
