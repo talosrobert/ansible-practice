@@ -1,0 +1,25 @@
+---
+- import_tasks: pre.yml
+
+- name: Download Docker Repo.
+  get_url:
+    url: https://download.docker.com/linux/fedora/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install Docker packages.
+  dnf:
+    state: latest
+    update_cache: yes
+    name: 
+      - "docker-ce"
+      - "docker-ce-cli"
+      - "containerd.io"
+
+- name: For Fedora 31 and higher, enable the backward compatibility for Cgroups.
+  shell: 
+    cmd: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+
+- import_tasks: firewall.yml
