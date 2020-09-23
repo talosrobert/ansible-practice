@@ -13,10 +13,7 @@
   dnf:
     state: latest
     update_cache: yes
-    name: 
-      - "docker-ce"
-      - "docker-ce-cli"
-      - "containerd.io"
+    name: ["docker-ce", "docker-ce-cli", "containerd.io"]
 
 - name: For Fedora 31 and higher, enable the backward compatibility for Cgroups.
   shell: 

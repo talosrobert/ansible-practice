@@ -1,0 +1,15 @@
+---
+- name: Download Golang installer.
+  get_url:
+    url: "{{ golang_latest_stable['url'] }}"
+    dest: /tmp
+    checksum: "{{ golang_latest_stable['checksum'] }}"
+  register: dest
+
+- set_fact:
+    tar_file: "{{ dest }}"
+
+- name: Unpack Golang installer.
+  unarchive:
+    src: "{{ tar_file.dest }}"
+    dest: /usr/local/bin

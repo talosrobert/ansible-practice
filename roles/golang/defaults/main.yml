@@ -1,0 +1,4 @@
+---
+golang_latest_stable:
+  url: "https://golang.org/dl/go1.15.2.linux-amd64.tar.gz"
+  checksum: "sha256:b49fda1ca29a1946d6bb2a5a6982cf07ccd2aba849289508ee0f9918f6bb4552"

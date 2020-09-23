@@ -2,7 +2,7 @@
 - hosts: '{{ docker["swarm"]["nodes"] }}'
   become: yes
   vars:
-    - master_node: "10.0.8.10"
+    - master_node: "{{ docker_swarm_master_node }}"
 
   tasks:
     - name: Install docker-py package with pip3.
@@ -16,4 +16,4 @@
         state: join
         advertise_addr: '{{ hostvars[inventory_hostname]["ansible_host"] }}'
         join_token: "{{ vault_docker_swarm_token }}"
-        remote_addrs: ["{{ master_node }}"]
+        remote_addrs: ["{{ docker_swarm_master_node }}"]

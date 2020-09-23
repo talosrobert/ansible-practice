@@ -1,6 +1,0 @@
-# run these tasks before proceeding
----
-- name: Install unzip if needed
-  package:
-    name: unzip
-    state: present
