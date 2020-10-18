@@ -20,3 +20,4 @@
     cmd: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
 
 - import_tasks: firewall.yml
+- import_tasks: post.yml

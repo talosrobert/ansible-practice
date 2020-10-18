@@ -1,0 +1,21 @@
+# SWMTKN-1-2ahj3zqspoe03hogi0z29dxxpwgo9vxv9jtgs7jsmsxyg8vzd8-1bxnl8h559rwmsv8ds1fu7cxt
+# token should really be stored in a vault though...
+---
+- hosts: [localhost]
+  become: yes
+  vars:
+    swarm_subnet: "192.168.213.0/24"
+    swarm_master_node_addr: "192.168.213.10"
+  tasks:
+    - name: Open the necessary firewall ports for Docker Swarm.
+      ansible.posix.firewalld:
+        zone: FedoraServer
+        state: enabled
+        permanent: yes
+        immediate: yes
+        rich_rule: rule family=ipv4 source address="{{ swarm_subnet }}" port port="{{ item.port }}" protocol="{{ item.protocol }}" accept
+      loop:
+        - { port: 2377, protocol: "tcp" }
+        - { port: 7946, protocol: "tcp" }
+        - { port: 7946, protocol: "udp" }
+        - { port: 4789, protocol: "udp" }

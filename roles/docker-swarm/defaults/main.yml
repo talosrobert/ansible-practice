@@ -1,11 +1,6 @@
 ---
-# TCP port 2377 for cluster management communications
-# TCP and UDP port 7946 for communication among nodes
-# UDP port 4789 for overlay network traffic
+docker_swarm:
+  management_ip_subnet: "192.168.213.0/24"
+  management_firewall_zone: "FedoraServer"
+  master_node_addr: "192.168.213.10"
 
-docker_cluster_management_ip_subnet: "192.168.213.0/24"
-docker_cluster_management_firewall_zone: "FedoraServer"
-docker_swarm_master_node: "192.168.213.10"
-docker_swarm_ports:
-  udp: ["2377", "7946"]
-  tcp: ["4789", "7946"]

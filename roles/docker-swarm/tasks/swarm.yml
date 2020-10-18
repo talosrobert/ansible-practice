@@ -1,5 +1,5 @@
 ---
-- hosts: '{{ docker["swarm"]["nodes"] }}'
+- hosts: localhost
   become: yes
   vars:
     - master_node: "{{ docker_swarm_master_node }}"
