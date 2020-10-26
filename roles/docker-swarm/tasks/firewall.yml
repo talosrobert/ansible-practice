@@ -2,6 +2,7 @@
 # TCP port 2377 for cluster management communications
 # TCP and UDP port 7946 for communication among nodes
 # UDP port 4789 for overlay network traffic
+# TCP port 9323 for docker metrics
 ---
 - name: Open the necessary firewall ports for Docker Swarm.
   ansible.posix.firewalld:
@@ -15,3 +16,4 @@
     - { port: 7946, protocol: "tcp" }
     - { port: 7946, protocol: "udp" }
     - { port: 4789, protocol: "udp" }
+    - { port: 9323, protocol: "tcp" }

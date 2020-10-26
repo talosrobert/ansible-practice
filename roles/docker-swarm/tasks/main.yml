@@ -1,23 +1,37 @@
 ---
-- import_tasks: pre.yml
+# - import_tasks: pre.yml
 
-- name: Download Docker Repo.
-  get_url:
-    url: https://download.docker.com/linux/fedora/docker-ce.repo
-    dest: /etc/yum.repos.d/docker-ce.repo
-    owner: root
-    group: root
-    mode: 0644
+# - name: Download Docker Repo.
+#   get_url:
+#     url: https://download.docker.com/linux/fedora/docker-ce.repo
+#     dest: /etc/yum.repos.d/docker-ce.repo
+#     owner: root
+#     group: root
+#     mode: 0644
 
-- name: Install Docker packages.
-  dnf:
-    state: latest
-    update_cache: yes
-    name: ["docker-ce", "docker-ce-cli", "containerd.io"]
+# - name: Install Docker packages.
+#   dnf:
+#     state: latest
+#     update_cache: yes
+#     name: ["docker-ce", "docker-ce-cli", "containerd.io"]
 
-- name: For Fedora 31 and higher, enable the backward compatibility for Cgroups.
-  shell: 
-    cmd: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+# - name: For Fedora 31 and higher, enable the backward compatibility for Cgroups.
+#   shell: 
+#     cmd: 'grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"'
 
-- import_tasks: firewall.yml
+# - name: Enable Docker service.
+#   service:
+#     name: docker
+#     enabled: yes
+#     state: started
+
+# - name: Add user to docker group.
+#   user:
+#     name: "{{ docker['user_name'] }}"
+#     append: yes
+#     groups: docker
+
+# - import_tasks: firewall.yml
+# - import_tasks: swarm.yml
+- import_tasks: metrics.yml
 - import_tasks: post.yml

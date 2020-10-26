@@ -1,19 +1,9 @@
 ---
-- hosts: localhost
-  become: yes
-  vars:
-    - master_node: "{{ docker_swarm_master_node }}"
-
-  tasks:
-    - name: Install docker-py package with pip3.
-      pip:
-        name: docker-py
-        executable: pip3
-        state: present
-
-    - name: Join docker swarm.
-      docker_swarm:
-        state: join
-        advertise_addr: '{{ hostvars[inventory_hostname]["ansible_host"] }}'
-        join_token: "{{ vault_docker_swarm_token }}"
-        remote_addrs: ["{{ docker_swarm_master_node }}"]
+- name: Join Docker Swarm cluster.
+  community.general.docker_swarm:
+    state: join
+    advertise_addr: "{{ ansible_host }}"
+    join_token: "{{ vault_docker_swarm_token }}"
+    remote_addrs: ["{{ docker_swarm['master_node_addr'] }}:2377"]
+  when:
+    - ansible_connection != "local"

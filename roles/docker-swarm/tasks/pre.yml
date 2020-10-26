@@ -1,4 +1,11 @@
 ---
+- name: Check if docker swarm master address is reachable.
+  wait_for:
+    host: "{{ docker_swarm['master_node_addr'] }}"
+    port: 2377
+    timeout: 10
+    state: started
+
 - name: Remove old Docker versions.
   dnf:
     state: absent
@@ -12,3 +19,8 @@
       - "docker-selinux"
       - "docker-engine-selinux"
       - "docker-engine"
+
+- name: Install python dependencies with pip.
+  pip:
+    state: present
+    name: ["docker"]

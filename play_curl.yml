@@ -1,0 +1,13 @@
+---
+- hosts: [all]
+  # become: yes
+  tasks:
+    - name: Curl metrics endpoint.
+      uri:
+        url: "http://{{ ansible_host }}:9323/metrics"
+      register: curl
+    - name: Fail if http response statuscode does not equal 200.
+      fail:
+        msg: "No luck."
+      when: curl.status != 200
+     

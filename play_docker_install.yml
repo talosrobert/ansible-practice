@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: [fedora11, fedora12]
   become: yes
   roles:
     - docker-swarm

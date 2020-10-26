@@ -1,4 +1,12 @@
 ---
 all:
   hosts:
-    localhost:
+    fedora1[0:2]:
+  children:
+    master:
+      hosts:
+        fedora10:
+    nodes:
+      hosts:
+        fedora1[1:2]:
+
