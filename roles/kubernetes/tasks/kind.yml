@@ -1,0 +1,24 @@
+---
+- name: Download the kind binary file.
+  get_url:
+    url: "{{ kind['release'] }}"
+    dest: .
+    mode: "0755"
+  delegate_to: 127.0.0.1
+  run_once: true
+  register: binary
+
+- name: Copy binary to node.
+  copy:
+    src: "{{ binary.dest }}"
+    dest: /usr/local/bin/kind
+    owner: root
+    group: root
+    mode: "0755"
+    backup: yes
+
+- name: Remove binary.
+  ansible.builtin.file:
+    path: "{{ binary.dest }}"
+    state: absent
+  delegate_to: 127.0.0.1
