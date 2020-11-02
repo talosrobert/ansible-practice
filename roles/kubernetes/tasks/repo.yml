@@ -1,0 +1,19 @@
+---
+- name: Copy kubernetes repository file.
+  copy:
+    backup: yes
+    dest: "{{ kubernetes_yum_repo }}"
+    mode: "0644"
+    owner: root
+    group: root
+    src: templates/kubernetes.repo
+
+- name: Get repo file stats in path.
+  stat:
+    path: "{{ kubernetes_yum_repo }}"
+  register: repo
+
+- name: Check if repo file was successfulley created.
+  fail:
+    msg: File not found in path.
+  when: repo.stat.exists != True

@@ -1,12 +1,12 @@
 ---
 all:
   hosts:
-    fedora1[0:2]:
+    rhel1[0:2]:
   children:
     master:
       hosts:
-        fedora10:
+        rhel10:
     nodes:
       hosts:
-        fedora1[1:2]:
+        rhel1[1:2]:
 

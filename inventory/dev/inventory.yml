@@ -1,0 +1,12 @@
+---
+all:
+  hosts:
+    fedora2[0:2]:
+  children:
+    master:
+      hosts:
+        fedora20:
+    nodes:
+      hosts:
+        fedora2[1:2]:
+

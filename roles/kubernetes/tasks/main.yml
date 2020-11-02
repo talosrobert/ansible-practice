@@ -1,27 +1,20 @@
 ---
-- name: Copy kubernetes repository file.
-  ansible.builtin.copy:
-    backup: yes
-    dest: "{{ kubernetes['repo_path'] }}"
-    mode: "0644"
-    owner: root
-    group: root
-    src: templates/kubernetes.repo
+- import_tasks: repo.yml
 
-- name: Get repo file stats in path.
-  stat:
-    path: "{{ kubernetes['repo_path'] }}"
-  register: repo
-
-- name: Check if repo file was successfulley created.
-  fail:
-    msg: File not found in path.
-  when: repo.stat.exists != True
-
-- name: Install the latest version of the kubernetes cli applications.
+- name: Install the latest version of the kubernetes control plane applications.
   dnf:
-    name: ["kubectl", "kubeadm", "kubelet"]
+    name: ["kubectl", "kubeadm"]
     state: present
     update_cache: yes
+  when:
+   - inventory_hostname in groups["master"]
 
-- import_tasks: kind.yml
+- name: Install kubelet agent.
+  dnf:
+    name: "kubelet"
+    state: present
+    update_cache: yes
+  when:
+    - inventory_hostname in groups["nodes"]
+
+- import_tasks: firewall.yml
