@@ -1,5 +1,10 @@
 ---
-- hosts: [fedora11, fedora12]
+- hosts: [all]
   become: yes
-  roles:
-    - docker-swarm
+  tasks: 
+  - name: Open port 9323/tcp.
+    ansible.posix.firewalld:
+      port: 9323/tcp
+      permanent: yes
+      state: enabled
+      immediate: yes

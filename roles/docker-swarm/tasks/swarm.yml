@@ -1,9 +1,27 @@
 ---
+- name: Init Docker Swarm cluster
+  community.general.docker_swarm:
+    state: present
+  register: swarm
+  when:
+    - inventory_hostname in groups["master"]
+
+- name: Save join token to variable.
+  set_fact:
+    swarm_join_token: "{{ swarm.swarm_facts.JoinTokens.Manager }}"
+  when:
+    - inventory_hostname in groups["master"]
+
+- name: Check if docker swarm master address is reachable.
+  wait_for:
+    host: "{{ docker_swarm_master_node_addr }}"
+    port: 2377
+    timeout: 10
+    state: started
+
 - name: Join Docker Swarm cluster.
   community.general.docker_swarm:
     state: join
     advertise_addr: "{{ ansible_host }}"
-    join_token: "{{ vault_docker_swarm_token }}"
-    remote_addrs: ["{{ docker_swarm['master_node_addr'] }}:2377"]
-  when:
-    - ansible_connection != "local"
+    join_token: "{{ swarm_join_token }}"
+    remote_addrs: ["{{ docker_swarm_master_node_addr }}:2377"]

@@ -18,7 +18,7 @@
   lineinfile:
     path: "{{ docker_conf_path }}"
     regexp: ".\"metrics-addr.*"
-    line: "    \"metrics-addr\": \"{{ ansible_host }}:{{ docker['metrics_port'] }}\","
+    line: "    \"metrics-addr\": \"{{ ansible_host }}:{{ docker_metrics_port }}\","
     owner: root
     group: root
     mode: "0644"
