@@ -4,6 +4,7 @@ networks:
   net_promgraf:
 
 services:
+  # Prometheus-Server
   prom_server:
     image: 127.0.0.1:5000/prometheus_loc:0.1.2
     ports:
@@ -13,7 +14,7 @@ services:
       replicas: 1
     networks:
       - net_promgraf
-  
+  # Grafana-Server
   graf_server:
     image: grafana/grafana
     ports:
@@ -23,3 +24,11 @@ services:
       replicas: 1
     networks:
       - net_promgraf
+  # Alertmanager
+  # alertman:
+  #   image: 127.0.0.1:5000/alertman_loc:0.1.0
+  #   deploy:
+  #     replicas: 1
+  #   networks:
+  #     - net_promgraf
+    
