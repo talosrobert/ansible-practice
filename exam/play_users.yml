@@ -1,0 +1,37 @@
+---
+- hosts: [all]
+  become: yes
+  vars:
+    public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDTfCw4hSAWr9R01dwlWAqR+05cPrj8qUsZmr4KXKOaAoj00+0NNznK3lps9dkdLttJau7A5JlKvroGyg/V5OU3eN2gvekdhg/nv7LXu4+LtOHVughtVliME6h4MBfw0+HsUKu5qvFO+Z4kJJbItepdbjBNzDlb77gu1AIuqPIqZXLpCHUmwI1v5tZaQCrtgfSB3Je2I+QuAZx6Inn+kiKGLTXbENEvmbV5d2LOzfESFga4lNFm8ZNC/udjYXNeuWMzEIR4dB6HPZt1sBoA3aW2aps8+z1igSo8dELJ+XjsqZVi0euHe8w7hyhSpRbGQl6UKmizu6WO5vyuP2lXaTnkDMvH8uQkje/onZcXCLd4xILKblpWXXgQ4WpDe5AhHIuzAeKz7glHrd4U34vpmwkJ8ChYOviT4aZ2OaEuUGgrObAvu0DmhOyuDxIgaU9yEdUzy6vlzQll1EWHpHjdSlzDBKavEqpqCykYRd8aXZEysFbw/9anLlvZKaKSDDY7KvU= robert@localhost.localdomain"
+  tasks:
+    - include_vars:
+        file: user_vars.yml
+        name: user_vars
+    - include_vars:
+        file: user_secrets.yml
+        name: user_secrets
+
+    - name: Create users on the masters.
+      vars:
+        user_password: "{{ user_secrets.user_password_ones }}"
+      include_tasks: task_create_user.yml
+      loop: "{{ user_vars.users }}"
+      when: "item.uid is regex('^1.*') and 'master' in group_names"
+
+    - name: Create users on the nodes.
+      vars:
+        user_password: "{{ user_secrets.user_password_twos }}"
+      include_tasks: task_create_user.yml
+      loop: "{{ user_vars.users }}"
+      when: "item.uid is regex('^2.*') and 'nodes' in group_names"
+
+    # - name: Create users on the masters.
+    #   shell:
+    #     cmd: "groups {{item.username}}"
+    #   loop: "{{ user_vars.users }}"
+    #   when: "item.uid is regex('^1.*') and 'master' in group_names"
+    # - name: Create users on the nodes.
+    #   shell:
+    #     cmd: "groups {{item.username}}"
+    #   loop: "{{ user_vars.users }}"
+    #   when: "item.uid is regex('^2.*') and 'nodes' in group_names"

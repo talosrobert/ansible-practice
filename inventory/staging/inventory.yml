@@ -1,7 +1,5 @@
 ---
 all:
-  hosts:
-    rhel1[0:2]:
   children:
     master:
       hosts:

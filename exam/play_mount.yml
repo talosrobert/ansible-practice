@@ -1,0 +1,46 @@
+---
+- hosts: [all]
+  become: yes
+  vars:
+    disk_name: sda
+    device_name: "/dev/{{ disk_name }}"
+  tasks:
+    - name: Unmount and remove fstab entry if device is already mounted.
+      mount:
+        path: "{{ item.mount }}"
+        state: absent
+      when: "item.device == '{{ device_name }}'"
+      loop: "{{ ansible_mounts }}"
+
+    - name: Create lvm partition.
+      parted:
+        device: "{{ device_name }}"
+        flags: [lvm]
+        label: gpt
+        state: present
+        number: 1
+      register: sda_info
+
+    - name: Create volume group.
+      lvg:
+        vg: vgdata
+        state: present
+        pvs: "{{ sda_info.disk.dev }}1"
+    
+    - name: Create logical volume.
+      lvol:
+        vg: vgdata
+        lv: database
+        size: 1024
+
+    - name: Format new logical volume.
+      filesystem:
+        dev: "/dev/mapper/vgdata-database"
+        fstype: ext4
+    
+    - name: Mount new formatted logical volume.
+      mount:
+        src: "/dev/mapper/vgdata-database"
+        path: /data
+        fstype: ext4
+        state: mounted
