@@ -1,9 +1,0 @@
----
-docker_user_name: "robert"
-docker_conf_path: "/etc/docker/daemon.json" 
-docker_metrics_port: 9323
-
-docker_swarm_management_ip_subnet: "192.168.8.0/24"
-docker_swarm_management_firewall_zone: "FedoraServer"
-docker_swarm_master_node_addr: "192.168.8.10"
-

@@ -1,6 +1,0 @@
----
-ansible_python_interpreter: /usr/bin/python3
-ansible_user: automate
-# ansible_become_password: "{{ vault_ansible_become_password }}"
-service_user_name: automate
-service_user_password: "$6$hOB9HLvhmN0Hggm0$RMsF.tjRJ777Ej.KkeQmtzgb3Ac9IaYkO./0qioUFsz7QraTszvYpOtZHvMl84CwfcR7qQhCQq4bblJsCqwjq/"

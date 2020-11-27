@@ -1,4 +1,0 @@
----
-ansible_python_interpreter: /usr/bin/python3
-ansible_user: robert
-ansible_become_password: "{{ vault_ansible_become_password }}"
