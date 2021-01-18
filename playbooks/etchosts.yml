@@ -1,5 +1,5 @@
 ---
-- hosts: [rhels]
+- hosts: [feds10]
   become: yes
   tasks:
     - name: Append hosts to the /etc/hosts file.
@@ -8,9 +8,8 @@
         line: "{{ item.ip }} {{ item.name }}"
         state: present
       loop:
-        - { ip: "192.168.8.20", name: "fedora20" }
-        - { ip: "192.168.8.21", name: "fedora21" }
-        - { ip: "192.168.8.22", name: "fedora22" }
-        - { ip: "192.168.8.10", name: "rhel10" }
-        - { ip: "192.168.8.11", name: "rhel11" }
-        - { ip: "192.168.8.12", name: "rhel12" }
+        - { ip: "192.168.8.10", name: "feds10" }
+        - { ip: "192.168.8.11", name: "feds11" }
+        - { ip: "192.168.8.12", name: "feds12" }
+        - { ip: "192.168.8.20", name: "rhel20" }
+        - { ip: "192.168.8.21", name: "rhel21" }

@@ -1,0 +1,10 @@
+---
+- hosts: [all]
+  become: yes
+  tasks:
+  - name: Save node distribution.
+    set_fact:
+      distribution: "{{ ansible_facts['distribution'] | lower }}"
+  - debug:
+      msg: "{{ ansible_facts['os_family'] }}"
+    when: "distribution == 'fedora'"

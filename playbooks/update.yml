@@ -1,5 +1,5 @@
 ---
-- hosts: [rhel12]
+- hosts:  [rhels]
   become: yes
   tasks:
     - name: Update all packages.
@@ -17,4 +17,4 @@
     - name: Wait for managed host to come back.
       wait_for_connection:
         delay: 10
-        timeout: 300
+        timeout: 60
