@@ -1,5 +1,5 @@
 ---
-- hosts: [feds10]
+- hosts: [all]
   become: yes
   tasks:
     - name: Append hosts to the /etc/hosts file.

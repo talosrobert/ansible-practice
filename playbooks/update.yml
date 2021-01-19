@@ -1,5 +1,5 @@
 ---
-- hosts:  [rhels]
+- hosts:  [managed_nodes]
   become: yes
   tasks:
     - name: Update all packages.
