@@ -1,0 +1,32 @@
+---
+- name: Create users with UID less than 2000.
+  user:
+    name: "{{ item.username }}"
+    password: "{{ default_password_a | password_hash('sha512') }}"
+    shell: "/bin/bash"
+    append: yes
+    groups: wheel
+    uid: "{{ item.uid }}"
+    state: present
+  loop: "{{ users }}" 
+  when: item.uid < 2000
+
+- name: Create users with UID greater than or equal to 2000.
+  user:
+    name: "{{ item.username }}"
+    password: "{{ default_password_b | password_hash('sha512') }}"
+    shell: "/bin/bash"
+    append: yes
+    groups: wheel
+    uid: "{{ item.uid }}"
+    state: present
+  loop: "{{ users }}" 
+  when: item.uid >= 2000
+
+- name: Cleanup users.
+  user:
+    name: "{{ item.username }}"
+    uid: "{{ item.uid }}"
+    state: absent
+  loop: "{{ users }}"
+  when: cleanup

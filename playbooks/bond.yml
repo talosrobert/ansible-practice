@@ -34,4 +34,3 @@
         master: bond0
   roles:
     - linux-system-roles.network
-...

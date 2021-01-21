@@ -1,0 +1,27 @@
+---
+- hosts: [rhels]
+  become: yes
+  tasks:
+  - name: Set the message of the day.
+    lineinfile:
+      path: "/etc/motd"
+      line: "Welcome to a RHEL node."
+      state: present
+    when: '"rhels" in group_names'
+
+  - name: Modify sshd configuration.
+    lineinfile:
+      path: "/etc/ssh/sshd_config"
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+      state: present
+      firstmatch: yes
+      #validate: /usr/sbin/sshd -t %s
+    loop:
+      - { regexp: "^(#)?Banner.*", line: "Banner /etc/motd" }
+      - { regexp: "^(#)?X11Forwarding.*", line: "X11Forwarding no" }
+      - { regexp: "^(#)?MaxAuth.*", line: "MaxAuthTries 3" }
+  
+  - name: Validate sshd configuration.
+    shell: /usr/sbin/sshd -t
+
