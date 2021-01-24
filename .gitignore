@@ -111,3 +111,5 @@ dmypy.json
 *.zip
 *.tar.gz
 
+# ignore RPM files
+*.rpm

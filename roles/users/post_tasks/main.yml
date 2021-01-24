@@ -1,8 +1,1 @@
 ---
-- name: Cleanup users.
-  user:
-    name: "{{ item.username }}"
-    uid: "{{ item.uid }}"
-    state: absent
-  loop: "{{ users }}"
-  when: "{{ cleanup }} == yes"

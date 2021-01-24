@@ -1,0 +1,8 @@
+---
+mysql_repo_gpg_key: "https://repo.mysql.com/RPM-GPG-KEY-mysql"
+mysql_repo_url: "https://repo.mysql.com/yum/mysql-8.0-community/el/8/$basearch/"
+mysql_storage_target_device: "/dev/sda"
+mysql_storage_vg: "databasevg"
+mysql_storage_lvol: "backup"
+mysql_storage_lvol_size: "100%FREE"
+mysql_storage_mount_path: "/mnt/mysql_backups"

@@ -1,0 +1,5 @@
+---
+- hosts: [rhels]
+  become: yes
+  roles:
+    - role: "$HOME/projects/ansible-practice/roles/mysql-community"

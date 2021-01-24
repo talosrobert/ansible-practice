@@ -1,0 +1,12 @@
+- name: Configure MySQL 8.0 Community repository.
+  yum_repository:
+    name: "mysql-8.0-community"
+    description: "MySQL 8.0 Community Edition"
+    enabled: yes
+    baseurl: "{{ mysql_repo_url }}"
+    gpgcheck: yes
+    gpgkey: "{{ mysql_repo_gpg_key }}"
+    state: present
+  notify: dnf refresh
+  when: ansible_facts['os_family'] == "RedHat"
+   

@@ -1,0 +1,45 @@
+- name: Create primary partition.
+  parted:
+    device: "{{ mysql_storage_target_device }}"
+    label: gpt
+    number: 1
+    part_end: 1GiB
+    part_type: primary
+    flags: [lvm]
+    state: present
+
+- name: Create database volume group.
+  lvg:
+    vg: "{{ mysql_storage_vg }}"
+    pvs: "{{ mysql_storage_target_device + '1'}}"
+    state: present
+      
+- name: Create backup logical volume.
+  lvol:
+    vg: "{{ mysql_storage_vg }}"
+    lv: "{{ mysql_storage_lvol }}"
+    size: "{{ mysql_storage_lvol_size }}"
+    state: present
+
+- name: Format logical volume.
+  parted:
+    device: "/dev/mapper/{{ mysql_storage_vg }}-{{ mysql_storage_lvol }}"
+    fs_type: ext4
+    label: gpt
+    number: 1
+    state: present
+
+- name: Create backups directory.
+  file:
+    path: "{{ mysql_storage_mount_path }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: wheel
+
+- name: Mount logical volume to backup directory.
+  mount:
+    path: "{{ mysql_storage_mount_path }}"
+    src: "/dev/mapper/{{ mysql_storage_vg }}-{{ mysql_storage_lvol }}"
+    fstype: ext4
+    state: present
