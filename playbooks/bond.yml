@@ -1,36 +1,29 @@
-# Based upon https://raw.githubusercontent.com/linux-system-roles/network/main/examples/bond_simple.yml
-# SPDX-License-Identifier: BSD-3-Clause
 ---
-- hosts: network-test
-  vars:
-    network_connections:
-      # Specify the bond profile
-      - name: bond0
-        state: up
-        type: bond
-        interface_name: bond0
-        # ip configuration (optional)
-        ip:
-          address:
-            - "192.168.2.10/24"
-            - "2001:db8::23/64"
-        # bond configuration settings: (optional)
-        bond:
-          mode: active-backup
-          miimon: 110
+- hosts: [feds11,feds12]
+  become: yes
+  tasks:
+    - include_role:
+        name: linux-system-roles.network
+      vars:
+        network_connections:
+          - name: bridge0
+            state: up
+            type: bridge
+            interface_name: bridge0
+            ip:
+              address: ["{{ hostvars[inventory_hostname]['vlan200_ip_addr'] }}/24"]
+              gateway4: 192.168.1.2
+              dns: [192.168.1.2]
+          - name: bridge0-port1
+            state: up
+            type: ethernet
+            master: bridge0
+            slave_type: bridge
+            interface_name: ens34
+          - name: bridge0-port1
+            state: up
+            type: ethernet
+            master: bridge0
+            slave_type: bridge
+            interface_name: ens35
 
-      # add an ethernet profile to the bond
-      - name: member1
-        state: up
-        type: ethernet
-        interface_name: eth1
-        master: bond0
-
-      # add a second ethernet profile to the bond
-      - name: member2
-        state: up
-        type: ethernet
-        interface_name: eth2
-        master: bond0
-  roles:
-    - linux-system-roles.network
