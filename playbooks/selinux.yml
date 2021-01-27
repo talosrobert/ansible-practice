@@ -1,5 +1,5 @@
 ---
-- hosts: [fedoras]
+- hosts: [rhels]
   become: yes
   vars:
     selinux_state: enforcing

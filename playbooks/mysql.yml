@@ -1,5 +1,21 @@
 ---
 - hosts: [rhels]
   become: yes
-  roles:
-    - role: "$HOME/projects/ansible-practice/roles/mysql-community"
+  tasks:
+    - name: Configure node storage.
+      import_role:
+        name: linux-system-roles.storage
+      vars:
+        storage_pools:
+          - name: databasevg
+            type: lvm
+            disks: [nvme0n2]
+            volumes:
+              - name: backup
+                size: "1 GiB"
+                mount_point: "/mnt/database_backup"
+                fs_type: ext4
+                state: present
+    - name: Apply MySQL role.
+      import_role:
+        name: "$HOME/projects/ansible-practice/roles/mysql-community"
