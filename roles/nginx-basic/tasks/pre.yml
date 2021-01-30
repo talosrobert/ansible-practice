@@ -1,0 +1,12 @@
+---
+- name: Install the latest version of Nginx.
+  yum:
+    name: nginx
+    state: latest
+
+- name: Open the necessary firewall ports.
+  firewalld:
+    port: "{{ item }}"
+    state: enabled
+    permanent: yes
+  loop: "{{ nginx_firewall_ports }}"

@@ -1,0 +1,6 @@
+server {
+    server_name  "{{ nginx_server_name }}";
+    root         "/var/www/{{ nginx_server_name }}/";
+    access_log   "/var/log/nginx/{{ nginx_server_name }}/access.log";
+    error_log    "/var/log/nginx/{{ nginx_server_name }}/error.log";
+}

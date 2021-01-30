@@ -1,0 +1,28 @@
+---
+- import_tasks: pre.yml
+- import_tasks: dirs.yml
+
+# - name: Append configuration to the base configuration file.
+#   blockinfile:
+#     block: "{{ lookup('template', 'templates/nginx.conf.j2') }}"
+#     path: "/etc/nginx/default.d/{{ nginx_server_name }}.conf"
+#     backup: yes
+#     state: present
+#   notify: restart nginx service
+
+- name: Create configuration file.
+  template:
+    src: "templates/nginx.conf.j2"
+    dest: "/etc/nginx/default.d/{{ nginx_server_name }}.conf"
+    mode: "0644"
+  notify: restart nginx service
+
+- name: Create placeholder index.html file.
+  template:
+    src: "templates/index.html.j2"
+    dest: "/var/www/{{ nginx_server_name }}/index.html"
+    mode: "0644"
+  when: nginx_create_placeholder
+  notify: restart nginx service
+
+- import_tasks: post.yml

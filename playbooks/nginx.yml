@@ -1,0 +1,11 @@
+---
+- hosts: [rhel20]
+  become: yes
+  tasks:
+    - name: Apply the nginx role.
+      import_role:
+        name: "$HOME/projects/ansible-practice/roles/nginx-basic"
+      vars:
+        nginx_listen_ipv4: "{{ hostvars['inventory_hostname']['ansible_host'] }}"
+        nginx_server_name: "{{ ansible_hostname }}"
+        nginx_create_placeholder: true

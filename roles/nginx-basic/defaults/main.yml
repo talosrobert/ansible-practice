@@ -1,0 +1,7 @@
+---
+nginx_firewall_ports: ["80/tcp", "443/tcp"]
+nginx_listen_ipv4: "127.0.0.1"
+nginx_listen_ipv6: "[::]"
+nginx_server_name: "default"
+nginx_create_placeholder: false
+nginx_placeholder_text: "Gruezzi!"
