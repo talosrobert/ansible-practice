@@ -6,7 +6,8 @@
 
 - name: Open the necessary firewall ports.
   firewalld:
+    zone: public
     port: "{{ item }}"
-    state: enabled
-    permanent: yes
+    state: present
+    # permanent: yes
   loop: "{{ nginx_firewall_ports }}"

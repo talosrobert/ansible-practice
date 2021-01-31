@@ -6,6 +6,7 @@
       import_role:
         name: "$HOME/projects/ansible-practice/roles/nginx-basic"
       vars:
-        nginx_listen_ipv4: "{{ hostvars['inventory_hostname']['ansible_host'] }}"
-        nginx_server_name: "{{ ansible_hostname }}"
+        nginx_firewall_ports: ["8080/tcp"]
+        nginx_listen_ipv4: "{{ ansible_host + ':8080' }}"
+        nginx_server_name: "{{ ansible_fqdn }}"
         nginx_create_placeholder: true
