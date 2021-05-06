@@ -1,8 +1,0 @@
----
-- import_role:
-    name: linux-system-roles.selinux
-  vars:
-    selinux_fcontexts:
-      - { target: "/var/www/{{ nginx_server_name }}(/.*)?", setype: "httpd_sys_content_t", ftype: 'd', state: "present" }
-    selinux_restore_dirs:
-      - "/var/www/{{ nginx_server_name }}"

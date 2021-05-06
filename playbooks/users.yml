@@ -1,7 +1,0 @@
----
-- hosts: [rhels]
-  become: yes
-  roles:
-    - role: "$HOME/projects/ansible-practice/roles/users"
-      vars:
-        cleanup: true

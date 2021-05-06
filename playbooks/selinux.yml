@@ -1,7 +1,0 @@
----
-- hosts: [rhels]
-  become: yes
-  vars:
-    selinux_state: enforcing
-  roles:
-    - linux-system-roles.selinux

@@ -1,7 +1,0 @@
----
-- name: dnf refresh
-  dnf:
-    name: '*'
-    state: latest
-    update_cache: yes
-    

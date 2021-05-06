@@ -1,20 +1,7 @@
 ---
-- hosts:  [rhels]
+- hosts: [rhels]
   become: yes
-  tasks:
-    - name: Update all packages.
-      dnf:
-        name: '*'
-        state: latest
-        update_cache: yes
-
-    - name: Restart managed host.
-      shell: sleep 2 && shutdown -r now "updates triggered"
-      async: 1
-      poll: 0
-      ignore_errors: true
-
-    - name: Wait for managed host to come back.
-      wait_for_connection:
-        delay: 10
-        timeout: 60
+  roles:
+    - role: "$HOME/projects/ansible-practice/roles/users"
+      vars:
+        cleanup: true

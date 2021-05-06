@@ -1,8 +1,0 @@
-server {
-    server_name  {{ nginx_server_name }};
-    listen       {{ nginx_listen_ipv4 }};
-    listen       {{ nginx_listen_ipv6 }};
-    root         /var/www/{{ nginx_server_name }}/;
-    access_log   /var/log/nginx/{{ nginx_server_name }}/access.log;
-    error_log    /var/log/nginx/{{ nginx_server_name }}/error.log;
-}
