@@ -1,0 +1,11 @@
+---
+- hosts: [localhost]
+  tasks:
+    - name: Import vars from file.
+      include_vars:
+        file: stuff.yml
+        name: stuff
+
+    - debug:
+        msg: "{{ item }}" 
+      loop: "{{ stuff.users }}"

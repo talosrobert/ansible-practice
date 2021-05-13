@@ -1,2 +1,2 @@
 ---
-ansible_host: 192.168.122.22
+ansible_host: 10.0.0.22

@@ -1,0 +1,4 @@
+users:
+  - { name: bob, age: 31 }
+  - { name: rob, age: 27 }
+  - { name: bobbo, age: 45 }

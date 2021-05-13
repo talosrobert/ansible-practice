@@ -1,7 +1,12 @@
 ---
 - hosts: [rhels]
   become: yes
-  roles:
-    - role: "$HOME/projects/ansible-practice/roles/users"
-      vars:
-        cleanup: true
+  tasks:
+    - name: Update all packages.
+      dnf:
+        name: '*'
+        state: latest
+
+    - name: Reboot machine.
+      reboot:
+        reboot_timeout: 90
