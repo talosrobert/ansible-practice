@@ -1,0 +1,26 @@
+- hosts: [fedoras]
+  become: yes
+  tasks:
+    - name: Install pacemaker packages.
+      dnf:
+        name: ["pcs","pacemaker","fence-agents-all"]
+        state: latest
+
+    - name: Allow high-availability service traffic.
+      firewalld:
+        immediate: yes
+        zone: "{{ firewalld_zone }}"
+        service: "high-availability"
+        state: enabled
+        permanent: yes
+
+    - name: Set password for hacluster user.
+      user:
+        name: hacluster
+        password: "{{ vault_hacluster_user_password | password_hash('sha512') }}"
+
+    - name: Enable pcsd service.
+      service:
+        name: pcsd
+        enabled: yes
+        state: restarted
