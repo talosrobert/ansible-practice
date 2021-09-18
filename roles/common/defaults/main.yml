@@ -1,1 +1,3 @@
 ---
+target_user: "{{ ansible_user }}"
+pubkey: "{{ lookup('file','files/pub.key') }}"

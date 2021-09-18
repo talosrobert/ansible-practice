@@ -1,4 +1,0 @@
-users:
-  - { name: bob, pwd: kula }
-  - { name: rob, pwd: kaki }
-  - { name: bobbo, pwd: kaka }

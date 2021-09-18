@@ -6,7 +6,10 @@
       dnf:
         name: '*'
         state: latest
+      notify: restart node
 
-    - name: Reboot machine.
+  handlers:
+    - name: restart node
       reboot:
-        reboot_timeout: 90
+        reboot_timeout: 30
+

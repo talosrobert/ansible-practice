@@ -1,1 +1,37 @@
 ---
+- import_tasks: bell.yml
+- import_tasks: wheel.yml
+
+- name: Create .ssh folder.
+  file:
+    mode: 0700
+    group: "{{ target_user }}"
+    owner: "{{ target_user }}"
+    path: "/home/{{ target_user }}/.ssh"
+    state: directory
+
+- name: Insert public key to authorized_keys file.
+  lineinfile:
+    line: "{{ pubkey }}"
+    mode: 0600
+    group: "{{ target_user }}"
+    owner: "{{ target_user }}"
+    path: "/home/{{ target_user }}/.ssh/authorized_keys"
+    create: yes
+    state: present
+
+- name: Allow public key authentication.
+  lineinfile:
+    line: "{{ item }}"
+    path: "/etc/ssh/sshd_config"
+    state: present
+  loop:
+    - "PubkeyAuthentication yes"
+    - "PasswordAuthentication no"
+
+- name: Restart sshd service.
+  service:
+    name: sshd
+    state: restarted
+
+

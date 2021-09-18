@@ -1,0 +1,11 @@
+---
+- hosts: [all]
+  become: yes
+  tasks:
+    - name: Allow wheel group members privilege escalation without password.
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%wheel ALL='
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: /usr/sbin/visudo -cf %s

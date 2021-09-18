@@ -1,0 +1,8 @@
+---
+- name: Allow wheel group to run sudo without password.
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "^%wheel.*"
+    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+    validate: /usr/sbin/visudo -cf %s
