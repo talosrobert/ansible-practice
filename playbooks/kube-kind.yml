@@ -1,0 +1,47 @@
+---
+- hosts: [fedoras]
+  become: yes
+  tasks:
+    - name: Uninstall older versions of Docker.
+      dnf:
+        name: ["docker","docker-client","docker-client-latest","docker-common","docker-latest","docker-latest-logrotate,docker-logrotate","docker-selinux ,docker-engine-selinux","docker-engine"]
+        autoremove: yes
+        state: absent
+  
+    - name: Set up the Docker repository.
+      get_url:
+        dest: /etc/yum.repos.d/docker-ce.repo
+        url: https://download.docker.com/linux/fedora/docker-ce.repo
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: Install Docker.
+      dnf:
+        name: ["docker-ce","docker-ce-cli","containerd.io"]
+
+    - name: Start and enable Docker service.
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Set up the Kubernetes repository.
+      copy:
+        dest: /etc/yum.repos.d/kubernetes.repo
+        src: ../files/kubernetes.repo
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: Install kubectl.
+      dnf:
+        name: ["kubectl"]
+
+    - name: Download kind.
+      get_url:
+        dest: /usr/local/bin/kind
+        url: https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+        mode: 0755
+        owner: root
+        group: root
