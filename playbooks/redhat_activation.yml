@@ -1,0 +1,9 @@
+---
+- hosts: [rhels]
+  become: yes
+  tasks:
+    - name: Activate using Red Hat Dev sub.
+      community.general.redhat_subscription:
+        state: present
+        activationkey: "{{ vault_redhat_activationkey }}"
+        org_id: "{{ vault_redhat_org_id }}"

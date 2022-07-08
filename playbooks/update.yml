@@ -1,12 +1,12 @@
 ---
-- hosts: [fedoras]
+- hosts: [rhels]
   become: yes
   tasks:
-    - name: Update all packages.
-      dnf:
-        name: '*'
-        state: latest
-      notify: restart node
+  - name: Update all packages.
+    dnf:
+      name: '*'
+      state: latest
+    notify: restart node
 
   handlers:
     - name: restart node
