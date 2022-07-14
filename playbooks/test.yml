@@ -1,6 +1,11 @@
 ---
-- hosts: [all]
+- hosts: [feds10]
   become: yes
   tasks:
-    - debug:
-        msg: "{{ ansible_user }}"
+    - import_role:
+        name: terraform
+
+    - name: Install the AWS CLI.
+      package:
+        name: awscli
+        state: latest

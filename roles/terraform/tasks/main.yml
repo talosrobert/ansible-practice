@@ -1,0 +1,6 @@
+---
+- name: Get RPM repo.
+  import_tasks: repo_rpm.yml
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+  

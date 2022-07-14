@@ -1,0 +1,19 @@
+---
+- set_fact:
+    distro: "{{ ansible_facts['distribution'] | lower }}"
+
+- set_fact:
+    distro: "RHEL"
+  when:
+    - ansible_facts['distribution'] == 'RedHat'
+
+- name: Install distribution specific RPM repo.
+  get_url:
+    backup: yes
+    dest: /etc/yum.repos.d/hashicorp.repo
+    url: "https://rpm.releases.hashicorp.com/{{ distro }}/hashicorp.repo"
+    mode: 0600
+    owner: root
+    group: root
+  notify:
+    - install terraform
